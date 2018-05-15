@@ -360,10 +360,11 @@ func DefaultLinkBlockGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.LinkBlockChainConfig,
 		Timestamp:  1492009146,
-		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		//这个可以随便写但要32字节长度 否则报错 Failed to prepare header for mining extra-data 32 byte vanity prefix missing
+		ExtraData:  hexutil.MustDecode("0xd783010506846765746887676f312e372e33856c696e7578"),
 		//ExtraData:  nil,
 		GasLimit:   3141592,
-		Difficulty: big.NewInt(400),
+		Difficulty: big.NewInt(1024),//1024是十六进制的400
 		//Alloc:      decodePrealloc(rinkebyAllocData),
 		Alloc:      nil,
 	}
