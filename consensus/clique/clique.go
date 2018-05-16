@@ -40,6 +40,7 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ethereum/go-ethereum/rpc"
 	lru "github.com/hashicorp/golang-lru"
+	"fmt"
 )
 
 const (
@@ -288,6 +289,8 @@ func (c *Clique) verifyHeader(chain consensus.ChainReader, header *types.Header,
 		return errInvalidCheckpointVote
 	}
 	// Check that the extra-data contains both the vanity and signature
+	fmt.Println("len of header.Extra",len(header.Extra))
+	fmt.Println("extravanity",extraVanity)
 	if len(header.Extra) < extraVanity {
 		return errMissingVanity
 	}
