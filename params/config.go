@@ -78,7 +78,7 @@ var (
 	}
 
 	LinkBlockChainConfig = &ChainConfig{
-		ChainId:             big.NewInt(1024),
+		ChainId:             big.NewInt(2018),
 		HomesteadBlock:      big.NewInt(0),
 		DAOForkBlock:        nil,
 		DAOForkSupport:      false,//这个设置成false  下面四个eip内容失效，如果设置成true  无法同步数据

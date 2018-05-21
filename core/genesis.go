@@ -165,19 +165,21 @@ func SetupGenesisBlock(db ethdb.Database, genesis *Genesis) (*params.ChainConfig
 			/home/liqing/.ethereum  这个.ethereum 这个文件夹是存放默认数据的地方，如下面修改的代码，
 			如你改为genesis = DefaultTestnetGenesisBlock() 他默认启动就执行测试链了、
 			 */
-			//genesis = DefaultGenesisBlock()
+			genesis = DefaultGenesisBlock()
+			log.Info("genesis.go 169",genesis.Coinbase)
 			//genesis = DefaultTestnetGenesisBlock()
-			genesis = DefaultLinkBlockGenesisBlock()
+			//genesis = DefaultLinkBlockGenesisBlock()
 		} else {
 			log.Info("Writing custom genesis block")
 		}
 		block, err := genesis.Commit(db)
-		fmt.Println("99999999999999",genesis.Config.ChainId)
+		log.Info("core/genesis.go 175", "config", block.Hash())
 		return genesis.Config, block.Hash(), err
 	}
 
 	// Check whether the genesis block is already written.
 	if genesis != nil {
+		log.Info("genesis.go 169",genesis.Coinbase)
 		hash := genesis.ToBlock(nil).Hash()
 		if hash != stored {
 			return genesis.Config, hash, &GenesisMismatchError{stored, hash}
@@ -220,10 +222,10 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 	switch {
 	case g != nil:
 		return g.Config
-	//case ghash == params.MainnetGenesisHash:
-	//	return params.MainnetChainConfig
 	case ghash == params.MainnetGenesisHash:
-		return params.LinkBlockChainConfig
+		return params.MainnetChainConfig
+	//case ghash == params.MainnetGenesisHash:
+	//	return params.LinkBlockChainConfig
 	case ghash == params.TestnetGenesisHash:
 		return params.TestnetChainConfig
 	default:
@@ -359,14 +361,14 @@ func DefaultRinkebyGenesisBlock() *Genesis {
 func DefaultLinkBlockGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.LinkBlockChainConfig,
-		Timestamp:  1492009146,
+		Timestamp:  0,
 		//这个可以随便写但要32字节长度 否则报错 Failed to prepare header for mining extra-data 32 byte vanity prefix missing
-		ExtraData:  hexutil.MustDecode("0xd783010506846765746887676f312e372e33856c696e7578"),
+		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
 		//ExtraData:  nil,
 		GasLimit:   3141592,
 		Difficulty: big.NewInt(1024),//1024是十六进制的400
-		//Alloc:      decodePrealloc(rinkebyAllocData),
 		Alloc:      nil,
+		//Alloc:      decodePrealloc("0xeced0f2076c6f790173f38012f130a9e5c493a95"),
 	}
 }
 

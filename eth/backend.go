@@ -119,6 +119,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	}
 	log.Info("Initialised chain configuration", "config", chainConfig)
 
+
 	eth := &Ethereum{
 		config:         config,
 		chainDb:        chainDb,
@@ -175,6 +176,7 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	gpoParams := config.GPO
 	if gpoParams.Default == nil {
 		gpoParams.Default = config.GasPrice
+
 	}
 	eth.ApiBackend.gpo = gasprice.NewOracle(eth.ApiBackend, gpoParams)
 
